@@ -8,9 +8,11 @@ namespace Ex03.GarageLogic
 
 		internal void Inflate(float i_AirPressureToAdd)
 		{
-			if(m_CurrentAirPressure + i_AirPressureToAdd > m_MaxAirPressure)
+			float maxAirPressureToAdd = m_MaxAirPressure - m_CurrentAirPressure;
+
+			if(i_AirPressureToAdd < 0 || i_AirPressureToAdd > maxAirPressureToAdd)
 			{
-				// TODO: Throw ValueOutOfRangeException after we implement the custom exception.
+				throw new ValueRangeException(0, maxAirPressureToAdd);
 			}
 			else
 			{

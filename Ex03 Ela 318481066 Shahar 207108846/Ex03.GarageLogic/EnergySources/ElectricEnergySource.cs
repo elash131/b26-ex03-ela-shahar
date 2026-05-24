@@ -7,9 +7,11 @@ namespace Ex03.GarageLogic
 
 		internal void Charge(float i_HoursToAdd)
 		{
-			if(m_BatteryTimeLeftInHours + i_HoursToAdd > m_MaxBatteryTimeInHours)
+			float maxHoursToAdd = m_MaxBatteryTimeInHours - m_BatteryTimeLeftInHours;
+
+			if(i_HoursToAdd < 0 || i_HoursToAdd > maxHoursToAdd)
 			{
-				// TODO: Throw ValueOutOfRangeException after we implement the custom exception.
+				throw new ValueRangeException(0, maxHoursToAdd);
 			}
 			else
 			{

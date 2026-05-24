@@ -8,15 +8,17 @@ namespace Ex03.GarageLogic
 
 		internal void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
 		{
+			float maxLitersToAdd = m_MaxFuelAmountInLiters - m_CurrentFuelAmountInLiters;
+
 			if(i_FuelType != m_FuelType)
 			{
-				// TODO: Throw ArgumentException for wrong fuel type.
+				throw new System.ArgumentException("Wrong fuel type.");
 			}
 			else
 			{
-				if(m_CurrentFuelAmountInLiters + i_LitersToAdd > m_MaxFuelAmountInLiters)
+				if(i_LitersToAdd < 0 || i_LitersToAdd > maxLitersToAdd)
 				{
-					// TODO: Throw ValueOutOfRangeException after we implement the custom exception.
+					throw new ValueRangeException(0, maxLitersToAdd);
 				}
 				else
 				{
