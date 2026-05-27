@@ -25,10 +25,12 @@ The initial object model is:
 
 ```text
 Vehicle
-|-- FuelCar
-|-- ElectricCar
-|-- FuelMotorcycle
-|-- ElectricMotorcycle
+|-- Car
+|   |-- FuelCar
+|   `-- ElectricCar
+|-- Motorcycle
+|   |-- FuelMotorcycle
+|   `-- ElectricMotorcycle
 `-- FuelTruck
 
 Vehicle has Engine
@@ -38,15 +40,13 @@ Engine
 `-- ElectricEngine
 
 Engine has EnergySource
-
-EnergySource
-|-- FuelEnergySource
-`-- ElectricEnergySource
 ```
 
 The vehicle classes represent the supported vehicle types required by the exercise.
 
-Following lecturer feedback from prior submissions, `Vehicle` should reference an abstract `Engine` rather than holding specific fueled/electric energy members directly. `Engine` owns an `EnergySource`; `FueledEngine` and `ElectricEngine` provide the specific fuel/charge operations.
+Following lecturer feedback from prior submissions, `Vehicle` should reference an abstract `Engine` rather than holding specific fueled/electric energy members directly. `Engine` owns one `EnergySource`; `FueledEngine` and `ElectricEngine` provide the specific fuel/charge operations. `EnergySource` is a shared state object for current and maximum energy amount, not a separate inheritance tree.
+
+`Car` and `Motorcycle` are abstract middle classes used to hold fields that are common to the fueled and electric versions of the same vehicle family. `FuelTruck` currently inherits directly from `Vehicle` because the exercise only requires one truck type.
 
 `Vehicle.RemainingEnergyPercentage` delegates to its engine.
 

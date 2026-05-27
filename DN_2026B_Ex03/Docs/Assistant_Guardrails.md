@@ -62,10 +62,12 @@ The current agreed starting model is:
 
 ```text
 Vehicle
-|-- FuelCar
-|-- ElectricCar
-|-- FuelMotorcycle
-|-- ElectricMotorcycle
+|-- Car
+|   |-- FuelCar
+|   `-- ElectricCar
+|-- Motorcycle
+|   |-- FuelMotorcycle
+|   `-- ElectricMotorcycle
 `-- FuelTruck
 
 Vehicle has Engine
@@ -75,13 +77,11 @@ Engine
 `-- ElectricEngine
 
 Engine has EnergySource
-
-EnergySource
-|-- FuelEnergySource
-`-- ElectricEnergySource
 ```
 
-Do not add extra middle classes such as `Car`, `Motorcycle`, or `Truck` unless the user explicitly decides to add them later.
+`EnergySource` stays as one shared state object for current and maximum energy amount. Do not reintroduce `FuelEnergySource` or `ElectricEnergySource` unless the user explicitly changes the architecture again.
+
+`Car` and `Motorcycle` are abstract middle classes because they remove duplicated vehicle-family fields. Do not add a `Truck` middle class unless the user explicitly asks for it.
 
 Keep the engine abstraction aligned with lecturer feedback: `Vehicle` should not directly hold specific fueled/electric energy members.
 

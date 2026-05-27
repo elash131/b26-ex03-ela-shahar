@@ -4,6 +4,12 @@ namespace Ex03.GarageLogic
 	{
 		private eFuelType m_FuelType;
 
+		internal FueledEngine(eFuelType i_FuelType, float i_CurrentFuelAmountInLiters, float i_MaxFuelAmountInLiters)
+			: base(new EnergySource(i_CurrentFuelAmountInLiters, i_MaxFuelAmountInLiters))
+		{
+			m_FuelType = i_FuelType;
+		}
+
 		internal void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
 		{
 			if(i_FuelType != m_FuelType)

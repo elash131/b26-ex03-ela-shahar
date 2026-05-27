@@ -1,13 +1,13 @@
 namespace Ex03.GarageLogic
 {
-	internal class ElectricMotorcycle : Vehicle
+	internal class ElectricMotorcycle : Motorcycle
 	{
-		private eMotorcycleLicenseType m_LicenseType;
-		private int m_EngineVolumeInCC;
+		private const float k_CurrentBatteryTimeInHours = 0.0f;
+		private const float k_MaxBatteryTimeInHours = 3.0f;
 
-		public ElectricMotorcycle(string i_LicenseID, string i_ModelName)
+		internal ElectricMotorcycle(string i_LicenseID, string i_ModelName)
+			: base(i_LicenseID, i_ModelName, new ElectricEngine(k_CurrentBatteryTimeInHours, k_MaxBatteryTimeInHours))
 		{
-			// TODO: Initialize the electric engine when vehicle constants are wired.
 		}
 	}
 }

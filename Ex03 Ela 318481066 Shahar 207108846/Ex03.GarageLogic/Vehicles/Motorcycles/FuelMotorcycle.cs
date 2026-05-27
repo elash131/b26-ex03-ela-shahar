@@ -1,13 +1,14 @@
 namespace Ex03.GarageLogic
 {
-	internal class FuelMotorcycle : Vehicle
+	internal class FuelMotorcycle : Motorcycle
 	{
-		private eMotorcycleLicenseType m_LicenseType;
-		private int m_EngineVolumeInCC;
+		private const eFuelType k_FuelType = eFuelType.Octan98;
+		private const float k_CurrentFuelAmountInLiters = 0.0f;
+		private const float k_MaxFuelAmountInLiters = 5.6f;
 
-		public FuelMotorcycle(string i_LicenseID, string i_ModelName)
+		internal FuelMotorcycle(string i_LicenseID, string i_ModelName)
+			: base(i_LicenseID, i_ModelName, new FueledEngine(k_FuelType, k_CurrentFuelAmountInLiters, k_MaxFuelAmountInLiters))
 		{
-			// TODO: Initialize the fueled engine when vehicle constants are wired.
 		}
 	}
 }

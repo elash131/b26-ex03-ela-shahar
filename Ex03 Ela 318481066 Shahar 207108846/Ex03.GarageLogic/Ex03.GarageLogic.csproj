@@ -40,8 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnergySources\EnergySource.cs" />
-    <Compile Include="EnergySources\ElectricEnergySource.cs" />
-    <Compile Include="EnergySources\FuelEnergySource.cs" />
     <Compile Include="Engines\ElectricEngine.cs" />
     <Compile Include="Engines\Engine.cs" />
     <Compile Include="Engines\FueledEngine.cs" />
@@ -54,10 +52,11 @@
     <Compile Include="GarageVehicleRecord.cs" />
     <Compile Include="VehicleCreator.cs" />
     <Compile Include="ValueRangeException.cs" />
-    <Compile Include="Wheel.cs" />
     <Compile Include="Vehicles\Vehicle.cs" />
+    <Compile Include="Vehicles\Cars\Car.cs" />
     <Compile Include="Vehicles\Cars\ElectricCar.cs" />
     <Compile Include="Vehicles\Cars\FuelCar.cs" />
+    <Compile Include="Vehicles\Motorcycles\Motorcycle.cs" />
     <Compile Include="Vehicles\Motorcycles\ElectricMotorcycle.cs" />
     <Compile Include="Vehicles\Motorcycles\FuelMotorcycle.cs" />
     <Compile Include="Vehicles\Trucks\FuelTruck.cs" />
