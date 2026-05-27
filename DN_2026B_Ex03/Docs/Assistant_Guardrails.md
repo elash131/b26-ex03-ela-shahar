@@ -53,7 +53,7 @@ Prefer simple, explicit, course-style C#.
 - The logic project must not reference the UI project.
 - Logic classes must not read from or write to the console.
 - Keep the object model clear and close to the assignment wording.
-- Prefer composition for "has a" relationships, such as fuel vehicles having `FuelEnergySource` and electric vehicles having `ElectricEnergySource`.
+- Prefer composition for "has a" relationships, such as `Vehicle` having `Engine` and `Engine` having `EnergySource`.
 - Prefer inheritance only where it expresses a real "is a" relationship required by the model.
 
 ## Current Model Guardrails
@@ -68,13 +68,22 @@ Vehicle
 |-- ElectricMotorcycle
 `-- FuelTruck
 
-FuelEnergySource
-ElectricEnergySource
+Vehicle has Engine
+
+Engine
+|-- FueledEngine
+`-- ElectricEngine
+
+Engine has EnergySource
+
+EnergySource
+|-- FuelEnergySource
+`-- ElectricEnergySource
 ```
 
 Do not add extra middle classes such as `Car`, `Motorcycle`, or `Truck` unless the user explicitly decides to add them later.
 
-Do not re-add an abstract `EnergySource` unless the user explicitly decides to revisit that design.
+Keep the engine abstraction aligned with lecturer feedback: `Vehicle` should not directly hold specific fueled/electric energy members.
 
 ## Solution Structure Guardrails
 

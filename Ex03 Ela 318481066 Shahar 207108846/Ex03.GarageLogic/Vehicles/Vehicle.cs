@@ -7,10 +7,28 @@ namespace Ex03.GarageLogic
 		private string m_ModelName;
 		private string m_LicenseID;
 		private List<Wheel> m_Wheels;
+		private Engine m_Engine;
 
-		public abstract float RemainingEnergyPercentage
+		internal void SetEngine(Engine i_Engine)
 		{
-			get;
+			if(i_Engine == null)
+			{
+				throw new System.ArgumentException("Engine cannot be null.");
+			}
+			else
+			{
+				m_Engine = i_Engine;
+			}
+		}
+
+		public float RemainingEnergyPercentage
+		{
+			get
+			{
+				float remainingEnergyPercentage = m_Engine.RemainingEnergyPercentage;
+
+				return remainingEnergyPercentage;
+			}
 		}
 	}
 }

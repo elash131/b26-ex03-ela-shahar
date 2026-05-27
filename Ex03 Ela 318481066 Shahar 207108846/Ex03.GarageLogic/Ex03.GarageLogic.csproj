@@ -39,8 +39,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnergySources\EnergySource.cs" />
     <Compile Include="EnergySources\ElectricEnergySource.cs" />
     <Compile Include="EnergySources\FuelEnergySource.cs" />
+    <Compile Include="Engines\ElectricEngine.cs" />
+    <Compile Include="Engines\Engine.cs" />
+    <Compile Include="Engines\FueledEngine.cs" />
     <Compile Include="Enums\eCarColor.cs" />
     <Compile Include="Enums\eFuelType.cs" />
     <Compile Include="Enums\eMotorcycleLicenseType.cs" />

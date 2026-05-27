@@ -31,13 +31,24 @@ Vehicle
 |-- ElectricMotorcycle
 `-- FuelTruck
 
-FuelEnergySource
-ElectricEnergySource
+Vehicle has Engine
+
+Engine
+|-- FueledEngine
+`-- ElectricEngine
+
+Engine has EnergySource
+
+EnergySource
+|-- FuelEnergySource
+`-- ElectricEnergySource
 ```
 
-The vehicle classes represent the supported vehicle types required by the exercise. Fuel and electric energy are modeled as separate component classes because the PDF describes them with different units and operations: liters/refuel for fuel, hours/charge for electric.
+The vehicle classes represent the supported vehicle types required by the exercise.
 
-`Vehicle` exposes a polymorphic `GetRemainingEnergyPercentage()` method. Each concrete vehicle overrides it and delegates to its relevant energy component.
+Following lecturer feedback from prior submissions, `Vehicle` should reference an abstract `Engine` rather than holding specific fueled/electric energy members directly. `Engine` owns an `EnergySource`; `FueledEngine` and `ElectricEngine` provide the specific fuel/charge operations.
+
+`Vehicle.RemainingEnergyPercentage` delegates to its engine.
 
 Future logic classes may include:
 
