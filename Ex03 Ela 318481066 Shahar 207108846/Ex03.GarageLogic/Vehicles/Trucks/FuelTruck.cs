@@ -15,6 +15,59 @@ namespace Ex03.GarageLogic
 		{
 		}
 
+		internal bool IsCarryingRefrigeratedCargo
+		{
+			get
+			{
+				return m_IsCarryingRefrigeratedCargo;
+			}
+
+			set
+			{
+				m_IsCarryingRefrigeratedCargo = value;
+			}
+		}
+
+		internal float CargoVolume
+		{
+			get
+			{
+				return m_CargoVolume;
+			}
+
+			set
+			{
+				m_CargoVolume = value;
+			}
+		}
+
+		internal override void InitializeSpecificInfo(string[] i_VehicleData)
+		{
+			IsCarryingRefrigeratedCargo = parseRefrigeratedCargo(i_VehicleData[k_FirstSpecificInfoIndex]);
+			CargoVolume = float.Parse(i_VehicleData[k_FirstSpecificInfoIndex + 1]);
+		}
+
+		private bool parseRefrigeratedCargo(string i_IsCarryingRefrigeratedCargo)
+		{
+			bool isCarryingRefrigeratedCargo;
+
+			switch(i_IsCarryingRefrigeratedCargo)
+			{
+				case "true":
+				case "True":
+					isCarryingRefrigeratedCargo = true;
+					break;
+				case "false":
+				case "False":
+					isCarryingRefrigeratedCargo = false;
+					break;
+				default:
+					throw new System.ArgumentException("Invalid refrigerated cargo value.");
+			}
+
+			return isCarryingRefrigeratedCargo;
+		}
+
 		protected override int NumberOfWheels
 		{
 			get

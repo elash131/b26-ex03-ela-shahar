@@ -13,12 +13,14 @@ namespace Ex03.GarageLogic
 
 		protected abstract float MaxAirPressure { get; }
 
+		protected const int k_FirstSpecificInfoIndex = 8;
+
 		internal Vehicle(string i_LicenseID, string i_ModelName, Engine i_Engine)
 		{
 			m_LicenseID = i_LicenseID;
 			m_ModelName = i_ModelName;
 			m_Engine = i_Engine;
-        }
+		}
 
 		private class Wheel
 		{
@@ -28,10 +30,10 @@ namespace Ex03.GarageLogic
 
 			internal Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
 			{
-                m_ManufacturerName = i_ManufacturerName;
-                m_MaxAirPressure = i_MaxAirPressure;
+				m_ManufacturerName = i_ManufacturerName;
+				m_MaxAirPressure = i_MaxAirPressure;
 
-                Inflate(i_CurrentAirPressure);
+				Inflate(i_CurrentAirPressure);
 			}
 
 			internal void Inflate(float i_AirPressureToAdd)
@@ -48,11 +50,11 @@ namespace Ex03.GarageLogic
 				}
 			}
 
-            internal void InflateToMax()
-            {
-                m_CurrentAirPressure = m_MaxAirPressure;
-            }
-        }
+			internal void InflateToMax()
+			{
+				m_CurrentAirPressure = m_MaxAirPressure;
+			}
+		}
 
 		internal void InitializeWheels(string i_ManufacturerName, float i_CurrentAirPressure)
 		{
@@ -69,13 +71,15 @@ namespace Ex03.GarageLogic
 			m_Engine.InitializeEnergy(i_EnergyPercentage);
 		}
 
+		internal abstract void InitializeSpecificInfo(string[] i_VehicleData);
+
 		internal void InflateWheelsToMax()
 		{
 			foreach(Wheel wheel in m_Wheels)
 			{
-                wheel.InflateToMax();
-            }
-        }
+				wheel.InflateToMax();
+			}
+		}
 
 		public float RemainingEnergyPercentage
 		{
