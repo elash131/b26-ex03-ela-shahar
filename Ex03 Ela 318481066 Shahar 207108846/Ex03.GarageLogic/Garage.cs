@@ -171,8 +171,8 @@ namespace Ex03.GarageLogic
 				throw new System.FormatException("Invalid vehicle type.");
 			}
 
-			vehicle.InitializeEnergy(float.Parse(i_EnergyPercentage));
-			vehicle.InitializeWheels(i_WheelManufacturerName, float.Parse(i_CurrentAirPressure));
+			vehicle.InitializeEnergy(parseFloat(i_EnergyPercentage, "Energy percentage"));
+			vehicle.InitializeWheels(i_WheelManufacturerName, parseFloat(i_CurrentAirPressure, "Wheel air pressure"));
 			vehicle.InitializeSpecificInfo(i_SpecificVehicleProperties);
 			r_VehicleRecords.Add(
 				i_LicenseID,
@@ -188,6 +188,18 @@ namespace Ex03.GarageLogic
 			{
 				throw new System.ArgumentException("Vehicle is not in the garage.");
 			}
+		}
+
+		private float parseFloat(string i_RawValue, string i_FieldLabel)
+		{
+			float value;
+
+			if(!float.TryParse(i_RawValue, out value))
+			{
+				throw new System.FormatException(string.Format("{0} must be a number.", i_FieldLabel));
+			}
+
+			return value;
 		}
 		
 		private string[] getSpecificVehicleProperties(string[] i_VehicleData)
