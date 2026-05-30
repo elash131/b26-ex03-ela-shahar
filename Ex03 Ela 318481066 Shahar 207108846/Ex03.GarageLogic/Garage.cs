@@ -24,10 +24,28 @@ namespace Ex03.GarageLogic
 		public void LoadVehiclesFromDB()
 		{
 			string[] vehicleLines = System.IO.File.ReadAllLines(k_VehiclesDBFileName);
+			int lineNumber = 0;
 
 			foreach(string vehicleLine in vehicleLines)
 			{
-				loadVehicleFromDBLine(vehicleLine);
+				lineNumber++;
+
+				try
+				{
+					loadVehicleFromDBLine(vehicleLine);
+				}
+				catch(ValueRangeException exception)
+				{
+					throw new ValueRangeException(
+						string.Format("DB file is invalid at line {0}: {1}", lineNumber, exception.Message),
+						exception.MinValue,
+						exception.MaxValue);
+				}
+				catch(System.Exception exception)
+				{
+					throw new System.FormatException(
+						string.Format("DB file is invalid at line {0}: {1}", lineNumber, exception.Message));
+				}
 			}
 		}
 

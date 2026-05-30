@@ -152,9 +152,16 @@ namespace Ex03.ConsoleUI
 
 			licenseIDs = r_Garage.GetLicenseIDs(filterStatus);
 
-			foreach(string licenseID in licenseIDs)
+			if(licenseIDs.Count == 0)
 			{
-				Console.WriteLine(licenseID);
+				Console.WriteLine("(No vehicles match.)");
+			}
+			else
+			{
+				foreach(string licenseID in licenseIDs)
+				{
+					Console.WriteLine(licenseID);
+				}
 			}
 		}
 
