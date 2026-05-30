@@ -8,6 +8,7 @@ namespace Ex03.ConsoleUI
 	{
 		private readonly Garage r_Garage;
 		private readonly VehicleInputCollector r_VehicleInputCollector;
+		private readonly ConsoleInputReader r_InputReader;
 		private const float k_MinEnergyPercentage = 0.0f;
 		private const float k_MaxEnergyPercentage = 100.0f;
 		private const float k_MinAirPressure = 0.0f;
@@ -19,6 +20,7 @@ namespace Ex03.ConsoleUI
 		{
 			r_Garage = new Garage();
 			r_VehicleInputCollector = new VehicleInputCollector(r_Garage);
+			r_InputReader = new ConsoleInputReader();
 		}
 
 		internal void Run()
@@ -145,7 +147,7 @@ namespace Ex03.ConsoleUI
 			if(shouldFilterByStatus)
 			{
 				Console.Write("Enter status (InRepair, Repaired, Paid): ");
-				filterStatus = readVehicleStatus();
+				filterStatus = r_InputReader.ReadVehicleStatus();
 			}
 
 			licenseIDs = r_Garage.GetLicenseIDs(filterStatus);
@@ -161,7 +163,7 @@ namespace Ex03.ConsoleUI
 			Console.Write("Enter license ID: ");
 			string licenseID = Console.ReadLine();
 			Console.Write("Enter new status (InRepair, Repaired, Paid): ");
-			eVehicleStatus newStatus = readVehicleStatus();
+			eVehicleStatus newStatus = r_InputReader.ReadVehicleStatus();
 
 			r_Garage.ChangeVehicleStatus(licenseID, newStatus);
 			Console.WriteLine("Vehicle status was changed successfully.");
@@ -181,9 +183,9 @@ namespace Ex03.ConsoleUI
 			Console.Write("Enter license ID: ");
 			string licenseID = Console.ReadLine();
 			Console.Write("Enter fuel type (Octan98, Octan96, Octan95, Soler): ");
-			eFuelType fuelType = readFuelType();
+			eFuelType fuelType = r_InputReader.ReadFuelType();
 			Console.Write("Enter fuel amount to add: ");
-			float litersToAdd = readFloat("Fuel amount");
+			float litersToAdd = r_InputReader.ReadFloat("Fuel amount");
 
 			r_Garage.RefuelVehicle(licenseID, fuelType, litersToAdd);
 			Console.WriteLine("Vehicle was refueled successfully.");
@@ -194,7 +196,7 @@ namespace Ex03.ConsoleUI
 			Console.Write("Enter license ID: ");
 			string licenseID = Console.ReadLine();
 			Console.Write("Enter charge time in minutes: ");
-			float minutesToCharge = readFloat("Charge time");
+			float minutesToCharge = r_InputReader.ReadFloat("Charge time");
 
 			r_Garage.ChargeVehicle(licenseID, minutesToCharge);
 			Console.WriteLine("Vehicle was charged successfully.");
@@ -230,68 +232,6 @@ namespace Ex03.ConsoleUI
 			Console.WriteLine("9. Exit");
 			Console.WriteLine();
 			Console.Write("Please choose an option: ");
-		}
-
-		private float readFloat(string i_FieldLabel)
-		{
-			string input = Console.ReadLine();
-			float value;
-
-			if(!float.TryParse(input, out value))
-			{
-				throw new FormatException(string.Format("{0} must be a number.", i_FieldLabel));
-			}
-
-			return value;
-		}
-
-		private eFuelType readFuelType()
-		{
-			string input = Console.ReadLine();
-			eFuelType fuelType;
-
-			switch(input)
-			{
-				case "Octan98":
-					fuelType = eFuelType.Octan98;
-					break;
-				case "Octan96":
-					fuelType = eFuelType.Octan96;
-					break;
-				case "Octan95":
-					fuelType = eFuelType.Octan95;
-					break;
-				case "Soler":
-					fuelType = eFuelType.Soler;
-					break;
-				default:
-					throw new FormatException(string.Format("'{0}' is not a valid fuel type.", input));
-			}
-
-			return fuelType;
-		}
-
-		private eVehicleStatus readVehicleStatus()
-		{
-			string input = Console.ReadLine();
-			eVehicleStatus status;
-
-			switch(input)
-			{
-				case "InRepair":
-					status = eVehicleStatus.InRepair;
-					break;
-				case "Repaired":
-					status = eVehicleStatus.Repaired;
-					break;
-				case "Paid":
-					status = eVehicleStatus.Paid;
-					break;
-				default:
-					throw new FormatException(string.Format("'{0}' is not a valid vehicle status.", input));
-			}
-
-			return status;
 		}
 	}
 }

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleInputReader.cs" />
     <Compile Include="eMainMenuOption.cs" />
     <Compile Include="GarageUI.cs" />
     <Compile Include="Program.cs" />
