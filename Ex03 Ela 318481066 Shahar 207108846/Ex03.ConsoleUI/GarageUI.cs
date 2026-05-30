@@ -7,6 +7,12 @@ namespace Ex03.ConsoleUI
 	internal class GarageUI
 	{
 		private readonly Garage r_Garage;
+		private const float k_MinEnergyPercentage = 0.0f;
+		private const float k_MaxEnergyPercentage = 100.0f;
+		private const float k_MinAirPressure = 0.0f;
+		private const float k_CarMaxAirPressure = 31.0f;
+		private const float k_MotorcycleMaxAirPressure = 30.0f;
+		private const float k_TruckMaxAirPressure = 28.0f;
 
 		internal GarageUI()
 		{
@@ -75,19 +81,18 @@ namespace Ex03.ConsoleUI
 			catch(ValueRangeException exception)
 			{
 				Console.WriteLine(
-					"The value entered is outside the allowed range. Please enter a value between {0} and {1}.",
+					"{0} is outside the allowed range. Please enter a value between {1} and {2}.",
+					exception.Message,
 					exception.MinValue,
 					exception.MaxValue);
 			}
 			catch(FormatException exception)
 			{
-				Console.WriteLine("One or more values were entered in an invalid format.");
-				Console.WriteLine(exception.Message);
+				Console.WriteLine("Invalid input: {0}", exception.Message);
 			}
 			catch(ArgumentException exception)
 			{
-				Console.WriteLine("The requested action cannot be completed.");
-				Console.WriteLine(exception.Message);
+				Console.WriteLine("The requested action cannot be completed: {0}", exception.Message);
 			}
 			catch(Exception)
 			{

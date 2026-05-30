@@ -41,7 +41,7 @@ namespace Ex03.GarageLogic
 
 				if(i_AirPressureToAdd < 0 || i_AirPressureToAdd > maxAirPressureToAdd)
 				{
-					throw new ValueRangeException(0, maxAirPressureToAdd);
+					throw new ValueRangeException("Current wheel air pressure", 0, maxAirPressureToAdd);
 				}
 				else
 				{

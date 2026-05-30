@@ -9,7 +9,7 @@ namespace Ex03.GarageLogic
 		{
 			if(i_CurrentAmount < 0 || i_CurrentAmount > i_MaxAmount)
 			{
-				throw new ValueRangeException(0, i_MaxAmount);
+				throw new ValueRangeException("Current energy amount", 0, i_MaxAmount);
 			}
 			else
 			{
@@ -24,7 +24,7 @@ namespace Ex03.GarageLogic
 
 			if(i_AmountToAdd < 0 || i_AmountToAdd > maxAmountToAdd)
 			{
-				throw new ValueRangeException(0, maxAmountToAdd);
+				throw new ValueRangeException("Energy amount to add", 0, maxAmountToAdd);
 			}
 			else
 			{
@@ -36,7 +36,7 @@ namespace Ex03.GarageLogic
 		{
 			if(i_EnergyPercentage < 0 || i_EnergyPercentage > 100)
 			{
-				throw new ValueRangeException(0, 100);
+				throw new ValueRangeException("Remaining energy percentage", 0, 100);
 			}
 			else
 			{
