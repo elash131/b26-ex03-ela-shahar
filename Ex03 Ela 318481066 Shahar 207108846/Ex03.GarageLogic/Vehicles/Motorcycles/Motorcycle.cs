@@ -38,10 +38,10 @@ namespace Ex03.GarageLogic
 			}
 		}
 
-		internal override void InitializeSpecificInfo(string[] i_VehicleData)
+		internal override void InitializeSpecificInfo(string[] i_SpecificVehicleProperties)
 		{
-			LicenseType = parseLicenseType(i_VehicleData[k_FirstSpecificInfoIndex]);
-			EngineVolumeInCC = int.Parse(i_VehicleData[k_FirstSpecificInfoIndex + 1]);
+			LicenseType = parseLicenseType(i_SpecificVehicleProperties[0]);
+			EngineVolumeInCC = parseEngineVolumeInCC(i_SpecificVehicleProperties[1]);
 		}
 
 		private eMotorcycleLicenseType parseLicenseType(string i_LicenseType)
@@ -63,10 +63,22 @@ namespace Ex03.GarageLogic
 					licenseType = eMotorcycleLicenseType.AB;
 					break;
 				default:
-					throw new System.ArgumentException("Invalid motorcycle license type.");
+					throw new System.FormatException("Invalid motorcycle license type.");
 			}
 
 			return licenseType;
+		}
+
+		private int parseEngineVolumeInCC(string i_EngineVolumeInCC)
+		{
+			int engineVolumeInCC;
+
+			if(!int.TryParse(i_EngineVolumeInCC, out engineVolumeInCC))
+			{
+				throw new System.FormatException("Engine volume must be a whole number.");
+			}
+
+			return engineVolumeInCC;
 		}
 
 		protected override int NumberOfWheels
@@ -83,6 +95,18 @@ namespace Ex03.GarageLogic
 			{
 				return k_MaxAirPressure;
 			}
+		}
+
+		public override string ToString()
+		{
+			string motorcycleDetails = string.Format(
+				"{0}{1}License type: {2}{1}Engine volume in CC: {3}",
+				base.ToString(),
+				System.Environment.NewLine,
+				m_LicenseType,
+				m_EngineVolumeInCC);
+
+			return motorcycleDetails;
 		}
 	}
 }

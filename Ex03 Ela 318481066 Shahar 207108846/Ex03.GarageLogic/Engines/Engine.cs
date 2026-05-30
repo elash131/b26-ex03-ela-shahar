@@ -11,9 +11,7 @@ namespace Ex03.GarageLogic
 
 		protected void SetEnergySource(EnergySource i_EnergySource)
 		{
-
 			m_EnergySource = i_EnergySource;
-
 		}
 
 		protected void AddEnergy(float i_AmountToAdd)
@@ -26,6 +24,16 @@ namespace Ex03.GarageLogic
 			m_EnergySource.SetCurrentAmountByPercentage(i_EnergyPercentage);
 		}
 
+		internal virtual void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
+		{
+			throw new System.ArgumentException("Vehicle is not fuel based.");
+		}
+
+		internal virtual void Charge(float i_HoursToCharge)
+		{
+			throw new System.ArgumentException("Vehicle is not electric.");
+		}
+
 		internal float RemainingEnergyPercentage
 		{
 			get
@@ -33,6 +41,22 @@ namespace Ex03.GarageLogic
 				float remainingEnergyPercentage = m_EnergySource.RemainingEnergyPercentage;
 
 				return remainingEnergyPercentage;
+			}
+		}
+
+		protected float CurrentEnergyAmount
+		{
+			get
+			{
+				return m_EnergySource.CurrentAmount;
+			}
+		}
+
+		protected float MaxEnergyAmount
+		{
+			get
+			{
+				return m_EnergySource.MaxAmount;
 			}
 		}
 	}

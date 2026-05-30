@@ -38,10 +38,10 @@ namespace Ex03.GarageLogic
 			}
 		}
 
-		internal override void InitializeSpecificInfo(string[] i_VehicleData)
+		internal override void InitializeSpecificInfo(string[] i_SpecificVehicleProperties)
 		{
-			Color = parseCarColor(i_VehicleData[k_FirstSpecificInfoIndex]);
-			NumberOfDoors = parseNumberOfDoors(i_VehicleData[k_FirstSpecificInfoIndex + 1]);
+			Color = parseCarColor(i_SpecificVehicleProperties[0]);
+			NumberOfDoors = parseNumberOfDoors(i_SpecificVehicleProperties[1]);
 		}
 
 		private eCarColor parseCarColor(string i_Color)
@@ -63,7 +63,7 @@ namespace Ex03.GarageLogic
 					carColor = eCarColor.Silver;
 					break;
 				default:
-					throw new System.ArgumentException("Invalid car color.");
+					throw new System.FormatException("Invalid car color.");
 			}
 
 			return carColor;
@@ -88,7 +88,7 @@ namespace Ex03.GarageLogic
 					numberOfDoors = eNumberOfDoors.Five;
 					break;
 				default:
-					throw new System.ArgumentException("Invalid number of doors.");
+					throw new System.FormatException("Invalid number of doors.");
 			}
 
 			return numberOfDoors;
@@ -108,6 +108,18 @@ namespace Ex03.GarageLogic
 			{
 				return k_MaxAirPressure;
 			}
+		}
+
+		public override string ToString()
+		{
+			string carDetails = string.Format(
+				"{0}{1}Color: {2}{1}Number of doors: {3}",
+				base.ToString(),
+				System.Environment.NewLine,
+				m_Color,
+				m_NumberOfDoors);
+
+			return carDetails;
 		}
 	}
 }

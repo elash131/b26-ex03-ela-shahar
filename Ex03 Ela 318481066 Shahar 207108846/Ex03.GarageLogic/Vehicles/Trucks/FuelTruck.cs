@@ -41,10 +41,10 @@ namespace Ex03.GarageLogic
 			}
 		}
 
-		internal override void InitializeSpecificInfo(string[] i_VehicleData)
+		internal override void InitializeSpecificInfo(string[] i_SpecificVehicleProperties)
 		{
-			IsCarryingRefrigeratedCargo = parseRefrigeratedCargo(i_VehicleData[k_FirstSpecificInfoIndex]);
-			CargoVolume = float.Parse(i_VehicleData[k_FirstSpecificInfoIndex + 1]);
+			IsCarryingRefrigeratedCargo = parseRefrigeratedCargo(i_SpecificVehicleProperties[0]);
+			CargoVolume = parseCargoVolume(i_SpecificVehicleProperties[1]);
 		}
 
 		private bool parseRefrigeratedCargo(string i_IsCarryingRefrigeratedCargo)
@@ -62,10 +62,22 @@ namespace Ex03.GarageLogic
 					isCarryingRefrigeratedCargo = false;
 					break;
 				default:
-					throw new System.ArgumentException("Invalid refrigerated cargo value.");
+					throw new System.FormatException("Invalid refrigerated cargo value.");
 			}
 
 			return isCarryingRefrigeratedCargo;
+		}
+
+		private float parseCargoVolume(string i_CargoVolume)
+		{
+			float cargoVolume;
+
+			if(!float.TryParse(i_CargoVolume, out cargoVolume))
+			{
+				throw new System.FormatException("Cargo volume must be a valid number.");
+			}
+
+			return cargoVolume;
 		}
 
 		protected override int NumberOfWheels
@@ -82,6 +94,18 @@ namespace Ex03.GarageLogic
 			{
 				return k_MaxAirPressure;
 			}
+		}
+
+		public override string ToString()
+		{
+			string fuelTruckDetails = string.Format(
+				"{0}{1}Carrying refrigerated cargo: {2}{1}Cargo volume: {3}",
+				base.ToString(),
+				System.Environment.NewLine,
+				m_IsCarryingRefrigeratedCargo,
+				m_CargoVolume);
+
+			return fuelTruckDetails;
 		}
 	}
 }

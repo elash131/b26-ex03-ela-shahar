@@ -7,9 +7,20 @@ namespace Ex03.GarageLogic
 		{
 		}
 
-		internal void Charge(float i_HoursToAdd)
+		internal override void Charge(float i_HoursToAdd)
 		{
 			AddEnergy(i_HoursToAdd);
+		}
+
+		public override string ToString()
+		{
+			string electricEngineDetails = string.Format(
+				"Battery time left: {0}{1}Max battery time: {2}",
+				CurrentEnergyAmount,
+				System.Environment.NewLine,
+				MaxEnergyAmount);
+
+			return electricEngineDetails;
 		}
 	}
 }

@@ -53,5 +53,21 @@ namespace Ex03.GarageLogic
 				return remainingEnergyPercentage;
 			}
 		}
+
+		internal float CurrentAmount
+		{
+			get
+			{
+				return m_CurrentAmount;
+			}
+		}
+
+		internal float MaxAmount
+		{
+			get
+			{
+				return m_MaxAmount;
+			}
+		}
 	}
 }

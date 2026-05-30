@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
 			m_FuelType = i_FuelType;
 		}
 
-		internal void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
+		internal override void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
 		{
 			if(i_FuelType != m_FuelType)
 			{
@@ -20,6 +20,18 @@ namespace Ex03.GarageLogic
 			{
 				AddEnergy(i_LitersToAdd);
 			}
+		}
+
+		public override string ToString()
+		{
+			string fueledEngineDetails = string.Format(
+				"Fuel type: {0}{1}Current fuel amount: {2}{1}Max fuel amount: {3}",
+				m_FuelType,
+				System.Environment.NewLine,
+				CurrentEnergyAmount,
+				MaxEnergyAmount);
+
+			return fueledEngineDetails;
 		}
 	}
 }
