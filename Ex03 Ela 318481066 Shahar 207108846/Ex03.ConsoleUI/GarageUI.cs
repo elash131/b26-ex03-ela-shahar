@@ -85,11 +85,13 @@ namespace Ex03.ConsoleUI
 			catch(ValueRangeException exception)
 			{
 				Console.WriteLine(
-					"{0} is outside the allowed range. Please enter a value between {1} and {2}.",
-					exception.Message,
+					"{0} is outside the allowed range.",
+					exception.Message);
+                Console.WriteLine(
+					"Allowed range: {0} to {1}.",
 					exception.MinValue,
 					exception.MaxValue);
-			}
+            }
 			catch(FormatException exception)
 			{
 				Console.WriteLine("Invalid input: {0}", exception.Message);
