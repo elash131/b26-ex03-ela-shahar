@@ -48,22 +48,13 @@ namespace Ex03.GarageLogic
 		{
 			eMotorcycleLicenseType licenseType;
 
-			switch(i_LicenseType)
+			try
 			{
-				case "A":
-					licenseType = eMotorcycleLicenseType.A;
-					break;
-				case "A2":
-					licenseType = eMotorcycleLicenseType.A2;
-					break;
-				case "B1":
-					licenseType = eMotorcycleLicenseType.B1;
-					break;
-				case "AB":
-					licenseType = eMotorcycleLicenseType.AB;
-					break;
-				default:
-					throw new System.FormatException("Invalid motorcycle license type.");
+				licenseType = (eMotorcycleLicenseType)System.Enum.Parse(typeof(eMotorcycleLicenseType), i_LicenseType);
+			}
+			catch(System.ArgumentException)
+			{
+				throw new System.FormatException("Invalid motorcycle license type.");
 			}
 
 			return licenseType;

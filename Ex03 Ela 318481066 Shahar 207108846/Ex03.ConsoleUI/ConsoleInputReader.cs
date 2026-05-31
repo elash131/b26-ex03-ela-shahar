@@ -23,22 +23,13 @@ namespace Ex03.ConsoleUI
 			string input = Console.ReadLine();
 			eFuelType fuelType;
 
-			switch(input)
+			try
 			{
-				case "Octan98":
-					fuelType = eFuelType.Octan98;
-					break;
-				case "Octan96":
-					fuelType = eFuelType.Octan96;
-					break;
-				case "Octan95":
-					fuelType = eFuelType.Octan95;
-					break;
-				case "Soler":
-					fuelType = eFuelType.Soler;
-					break;
-				default:
-					throw new FormatException(string.Format("'{0}' is not a valid fuel type.", input));
+				fuelType = (eFuelType)Enum.Parse(typeof(eFuelType), input);
+			}
+			catch(ArgumentException)
+			{
+				throw new FormatException(string.Format("'{0}' is not a valid fuel type.", input));
 			}
 
 			return fuelType;
@@ -49,19 +40,13 @@ namespace Ex03.ConsoleUI
 			string input = Console.ReadLine();
 			eVehicleStatus status;
 
-			switch(input)
+			try
 			{
-				case "InRepair":
-					status = eVehicleStatus.InRepair;
-					break;
-				case "Repaired":
-					status = eVehicleStatus.Repaired;
-					break;
-				case "Paid":
-					status = eVehicleStatus.Paid;
-					break;
-				default:
-					throw new FormatException(string.Format("'{0}' is not a valid vehicle status.", input));
+				status = (eVehicleStatus)Enum.Parse(typeof(eVehicleStatus), input);
+			}
+			catch(ArgumentException)
+			{
+				throw new FormatException(string.Format("'{0}' is not a valid vehicle status.", input));
 			}
 
 			return status;

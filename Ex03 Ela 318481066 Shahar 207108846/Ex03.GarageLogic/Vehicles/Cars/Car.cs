@@ -48,22 +48,13 @@ namespace Ex03.GarageLogic
 		{
 			eCarColor carColor;
 
-			switch(i_Color)
+			try
 			{
-				case "Red":
-					carColor = eCarColor.Red;
-					break;
-				case "Yellow":
-					carColor = eCarColor.Yellow;
-					break;
-				case "Black":
-					carColor = eCarColor.Black;
-					break;
-				case "Silver":
-					carColor = eCarColor.Silver;
-					break;
-				default:
-					throw new System.FormatException("Invalid car color.");
+				carColor = (eCarColor)System.Enum.Parse(typeof(eCarColor), i_Color);
+			}
+			catch(System.ArgumentException)
+			{
+				throw new System.FormatException("Invalid car color.");
 			}
 
 			return carColor;
@@ -73,22 +64,13 @@ namespace Ex03.GarageLogic
 		{
 			eNumberOfDoors numberOfDoors;
 
-			switch(i_NumberOfDoors)
+			try
 			{
-				case "2":
-					numberOfDoors = eNumberOfDoors.Two;
-					break;
-				case "3":
-					numberOfDoors = eNumberOfDoors.Three;
-					break;
-				case "4":
-					numberOfDoors = eNumberOfDoors.Four;
-					break;
-				case "5":
-					numberOfDoors = eNumberOfDoors.Five;
-					break;
-				default:
-					throw new System.FormatException("Invalid number of doors.");
+				numberOfDoors = (eNumberOfDoors)System.Enum.Parse(typeof(eNumberOfDoors), i_NumberOfDoors);
+			}
+			catch(System.ArgumentException)
+			{
+				throw new System.FormatException("Invalid number of doors.");
 			}
 
 			return numberOfDoors;
