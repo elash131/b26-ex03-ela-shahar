@@ -9,12 +9,6 @@ namespace Ex03.ConsoleUI
 		private readonly Garage r_Garage;
 		private readonly VehicleInputCollector r_VehicleInputCollector;
 		private readonly ConsoleInputReader r_InputReader;
-		private const float k_MinEnergyPercentage = 0.0f;
-		private const float k_MaxEnergyPercentage = 100.0f;
-		private const float k_MinAirPressure = 0.0f;
-		private const float k_CarMaxAirPressure = 31.0f;
-		private const float k_MotorcycleMaxAirPressure = 30.0f;
-		private const float k_TruckMaxAirPressure = 28.0f;
 
 		internal GarageUI()
 		{
@@ -87,11 +81,11 @@ namespace Ex03.ConsoleUI
 				Console.WriteLine(
 					"{0} is outside the allowed range.",
 					exception.Message);
-                Console.WriteLine(
+				Console.WriteLine(
 					"Allowed range: {0} to {1}.",
 					exception.MinValue,
 					exception.MaxValue);
-            }
+			}
 			catch(FormatException exception)
 			{
 				Console.WriteLine("Invalid input: {0}", exception.Message);
