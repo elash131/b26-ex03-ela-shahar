@@ -219,7 +219,7 @@ namespace Ex03.ConsoleUI
 
 			Console.WriteLine(r_GarageManager.GetVehicleDetails(licenseID));
 		}
-		
+
 		private void waitBeforeReturningToMenu()
 		{
 			Console.WriteLine("Press any key to continue...");

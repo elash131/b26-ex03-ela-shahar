@@ -86,7 +86,6 @@ namespace Ex03.GarageLogic
 			r_VehicleRecords[i_LicenseID].Status = i_NewStatus;
 		}
 
-
 		public void InflateVehicleWheelsToMax(string i_LicenseID)
 		{
 			validateVehicleExists(i_LicenseID);
@@ -196,7 +195,7 @@ namespace Ex03.GarageLogic
 
 			return value;
 		}
-		
+
 		private string[] getSpecificVehicleProperties(string[] i_VehicleData)
 		{
 			int numberOfSpecificProperties = i_VehicleData.Length - k_FirstSpecificInfoIndex;

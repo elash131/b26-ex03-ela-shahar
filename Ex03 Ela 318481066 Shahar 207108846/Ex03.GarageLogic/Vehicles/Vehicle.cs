@@ -33,21 +33,21 @@ namespace Ex03.GarageLogic
 
 		private class Wheel
 		{
-			private readonly string m_ManufacturerName;
-			private readonly float m_MaxAirPressure;
+			private readonly string r_ManufacturerName;
+			private readonly float r_MaxAirPressure;
 			private float m_CurrentAirPressure;
 
 			internal Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
 			{
-				m_ManufacturerName = i_ManufacturerName;
-				m_MaxAirPressure = i_MaxAirPressure;
+				r_ManufacturerName = i_ManufacturerName;
+				r_MaxAirPressure = i_MaxAirPressure;
 
 				Inflate(i_CurrentAirPressure);
 			}
 
 			internal void Inflate(float i_AirPressureToAdd)
 			{
-				float maxAirPressureToAdd = m_MaxAirPressure - m_CurrentAirPressure;
+				float maxAirPressureToAdd = r_MaxAirPressure - m_CurrentAirPressure;
 
 				if(i_AirPressureToAdd < 0 || i_AirPressureToAdd > maxAirPressureToAdd)
 				{
@@ -61,16 +61,16 @@ namespace Ex03.GarageLogic
 
 			internal void InflateToMax()
 			{
-				Inflate(m_MaxAirPressure - m_CurrentAirPressure);
+				Inflate(r_MaxAirPressure - m_CurrentAirPressure);
 			}
 
 			public override string ToString()
 			{
 				string wheelDetails = string.Format(
 					"Manufacturer: {0}, Current air pressure: {1}, Max air pressure: {2}",
-					m_ManufacturerName,
+					r_ManufacturerName,
 					m_CurrentAirPressure,
-					m_MaxAirPressure);
+					r_MaxAirPressure);
 
 				return wheelDetails;
 			}

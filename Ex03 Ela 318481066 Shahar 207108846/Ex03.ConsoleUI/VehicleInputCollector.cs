@@ -82,14 +82,14 @@ namespace Ex03.ConsoleUI
 		{
 			List<string> labels = i_Vehicle.SpecificPropertyLabels;
 			string[] values = new string[labels.Count];
-            int index = 0;
+			int index = 0;
 
-            foreach (string label in labels)
-            {
-                Console.Write("Enter {0}: ", label);
-                values[index] = Console.ReadLine();
-                index++;
-            }
+			foreach(string label in labels)
+			{
+				Console.Write("Enter {0}: ", label);
+				values[index] = Console.ReadLine();
+				index++;
+			}
 
 			return values;
 		}

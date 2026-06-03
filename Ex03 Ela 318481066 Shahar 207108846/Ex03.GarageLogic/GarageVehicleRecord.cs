@@ -2,16 +2,16 @@ namespace Ex03.GarageLogic
 {
 	internal class GarageVehicleRecord
 	{
-		private Vehicle m_Vehicle;
-		private string m_OwnerName;
-		private string m_OwnerPhone;
+		private readonly Vehicle r_Vehicle;
+		private readonly string r_OwnerName;
+		private readonly string r_OwnerPhone;
 		private eVehicleStatus m_Status;
 
 		internal GarageVehicleRecord(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhone)
 		{
-			m_Vehicle = i_Vehicle;
-			m_OwnerName = i_OwnerName;
-			m_OwnerPhone = i_OwnerPhone;
+			r_Vehicle = i_Vehicle;
+			r_OwnerName = i_OwnerName;
+			r_OwnerPhone = i_OwnerPhone;
 			m_Status = eVehicleStatus.InRepair;
 		}
 
@@ -32,7 +32,7 @@ namespace Ex03.GarageLogic
 		{
 			get
 			{
-				return m_Vehicle;
+				return r_Vehicle;
 			}
 		}
 
@@ -40,11 +40,11 @@ namespace Ex03.GarageLogic
 		{
 			string garageVehicleRecordDetails = string.Format(
 				"Owner name: {0}{1}Owner phone: {2}{1}Vehicle status: {3}{1}{4}",
-				m_OwnerName,
+				r_OwnerName,
 				System.Environment.NewLine,
-				m_OwnerPhone,
+				r_OwnerPhone,
 				m_Status,
-				m_Vehicle.ToString());
+				r_Vehicle.ToString());
 
 			return garageVehicleRecordDetails;
 		}

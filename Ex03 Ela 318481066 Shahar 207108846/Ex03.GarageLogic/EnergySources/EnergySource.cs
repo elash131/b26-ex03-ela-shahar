@@ -3,7 +3,7 @@ namespace Ex03.GarageLogic
 	internal class EnergySource
 	{
 		private float m_CurrentAmount;
-		private float m_MaxAmount;
+		private readonly float r_MaxAmount;
 
 		internal EnergySource(float i_CurrentAmount, float i_MaxAmount)
 		{
@@ -14,13 +14,13 @@ namespace Ex03.GarageLogic
 			else
 			{
 				m_CurrentAmount = i_CurrentAmount;
-				m_MaxAmount = i_MaxAmount;
+				r_MaxAmount = i_MaxAmount;
 			}
 		}
 
 		internal void AddEnergy(float i_AmountToAdd)
 		{
-			float maxAmountToAdd = m_MaxAmount - m_CurrentAmount;
+			float maxAmountToAdd = r_MaxAmount - m_CurrentAmount;
 
 			if(i_AmountToAdd < 0 || i_AmountToAdd > maxAmountToAdd)
 			{
@@ -40,7 +40,7 @@ namespace Ex03.GarageLogic
 			}
 			else
 			{
-				m_CurrentAmount = (i_EnergyPercentage / 100) * m_MaxAmount;
+				m_CurrentAmount = (i_EnergyPercentage / 100) * r_MaxAmount;
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace Ex03.GarageLogic
 		{
 			get
 			{
-				float remainingEnergyPercentage = (m_CurrentAmount / m_MaxAmount) * 100;
+				float remainingEnergyPercentage = (m_CurrentAmount / r_MaxAmount) * 100;
 
 				return remainingEnergyPercentage;
 			}
@@ -66,7 +66,7 @@ namespace Ex03.GarageLogic
 		{
 			get
 			{
-				return m_MaxAmount;
+				return r_MaxAmount;
 			}
 		}
 	}

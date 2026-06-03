@@ -48,7 +48,7 @@ namespace Ex03.GarageLogic
 
 		private eCarColor parseCarColor(string i_Color)
 		{
-			if(!System.Enum.TryParse(i_Color, out eCarColor carColor) 
+			if(!System.Enum.TryParse(i_Color, out eCarColor carColor)
 				|| !System.Enum.IsDefined(typeof(eCarColor), carColor))
 			{
 				throw new System.FormatException(string.Format("'{0}' is not a valid car color.", i_Color));

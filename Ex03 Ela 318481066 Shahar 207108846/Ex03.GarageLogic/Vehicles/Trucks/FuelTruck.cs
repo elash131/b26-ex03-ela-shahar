@@ -49,18 +49,18 @@ namespace Ex03.GarageLogic
 			CargoVolume = parseCargoVolume(i_SpecificVehicleProperties[1]);
 		}
 
-        private bool parseRefrigeratedCargo(string i_IsCarryingRefrigeratedCargo)
-        {
-            if (!bool.TryParse(i_IsCarryingRefrigeratedCargo, out bool isCarryingRefrigeratedCargo))
-            {
-                throw new System.FormatException(
-                    string.Format("'{0}' is not a valid refrigerated cargo value.", i_IsCarryingRefrigeratedCargo));
-            }
+		private bool parseRefrigeratedCargo(string i_IsCarryingRefrigeratedCargo)
+		{
+			if(!bool.TryParse(i_IsCarryingRefrigeratedCargo, out bool isCarryingRefrigeratedCargo))
+			{
+				throw new System.FormatException(
+					string.Format("'{0}' is not a valid refrigerated cargo value.", i_IsCarryingRefrigeratedCargo));
+			}
 
-            return isCarryingRefrigeratedCargo;
-        }
+			return isCarryingRefrigeratedCargo;
+		}
 
-        private float parseCargoVolume(string i_CargoVolume)
+		private float parseCargoVolume(string i_CargoVolume)
 		{
 			if(!float.TryParse(i_CargoVolume, out float cargoVolume))
 			{
