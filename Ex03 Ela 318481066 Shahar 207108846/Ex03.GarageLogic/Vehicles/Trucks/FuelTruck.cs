@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Ex03.GarageLogic
 {
 	internal class FuelTruck : Vehicle
@@ -47,34 +49,22 @@ namespace Ex03.GarageLogic
 			CargoVolume = parseCargoVolume(i_SpecificVehicleProperties[1]);
 		}
 
-		private bool parseRefrigeratedCargo(string i_IsCarryingRefrigeratedCargo)
+        private bool parseRefrigeratedCargo(string i_IsCarryingRefrigeratedCargo)
+        {
+            if (!bool.TryParse(i_IsCarryingRefrigeratedCargo, out bool isCarryingRefrigeratedCargo))
+            {
+                throw new System.FormatException(
+                    string.Format("'{0}' is not a valid refrigerated cargo value.", i_IsCarryingRefrigeratedCargo));
+            }
+
+            return isCarryingRefrigeratedCargo;
+        }
+
+        private float parseCargoVolume(string i_CargoVolume)
 		{
-			bool isCarryingRefrigeratedCargo;
-
-			switch(i_IsCarryingRefrigeratedCargo)
+			if(!float.TryParse(i_CargoVolume, out float cargoVolume))
 			{
-				case "true":
-				case "True":
-					isCarryingRefrigeratedCargo = true;
-					break;
-				case "false":
-				case "False":
-					isCarryingRefrigeratedCargo = false;
-					break;
-				default:
-					throw new System.FormatException("Invalid refrigerated cargo value.");
-			}
-
-			return isCarryingRefrigeratedCargo;
-		}
-
-		private float parseCargoVolume(string i_CargoVolume)
-		{
-			float cargoVolume;
-
-			if(!float.TryParse(i_CargoVolume, out cargoVolume))
-			{
-				throw new System.FormatException("Cargo volume must be a valid number.");
+				throw new System.FormatException(string.Format("'{0}' is not a valid cargo volume.", i_CargoVolume));
 			}
 
 			return cargoVolume;
@@ -93,6 +83,18 @@ namespace Ex03.GarageLogic
 			get
 			{
 				return k_MaxAirPressure;
+			}
+		}
+
+		public override List<string> SpecificPropertyLabels
+		{
+			get
+			{
+				return new List<string>
+				{
+					"is carrying refrigerated cargo (true/false)",
+					"cargo volume"
+				};
 			}
 		}
 

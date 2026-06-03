@@ -4,16 +4,16 @@ using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
-	internal class GarageUI
+	internal class GarageUIManager
 	{
-		private readonly Garage r_Garage;
+		private readonly GarageManager r_GarageManager;
 		private readonly VehicleInputCollector r_VehicleInputCollector;
 		private readonly ConsoleInputReader r_InputReader;
 
-		internal GarageUI()
+		internal GarageUIManager()
 		{
-			r_Garage = new Garage();
-			r_VehicleInputCollector = new VehicleInputCollector(r_Garage);
+			r_GarageManager = new GarageManager();
+			r_VehicleInputCollector = new VehicleInputCollector(r_GarageManager);
 			r_InputReader = new ConsoleInputReader();
 		}
 
@@ -25,15 +25,16 @@ namespace Ex03.ConsoleUI
 			while(!shouldExit)
 			{
 				showMainMenu();
+				string selectedOptionInput = Console.ReadLine();
 
-				if(Enum.TryParse(Console.ReadLine(), out selectedOption)
+				if(Enum.TryParse(selectedOptionInput, out selectedOption)
 					&& Enum.IsDefined(typeof(eMainMenuOption), selectedOption))
 				{
 					shouldExit = handleMenuOption(selectedOption);
 				}
 				else
 				{
-					Console.WriteLine("Invalid menu option.");
+					Console.WriteLine("'{0}' is not a valid menu option.", selectedOptionInput);
 					waitBeforeReturningToMenu();
 				}
 			}
@@ -109,7 +110,7 @@ namespace Ex03.ConsoleUI
 
 		private void loadVehiclesFromFile()
 		{
-			r_Garage.LoadVehiclesFromDB();
+			r_GarageManager.LoadVehiclesFromDB();
 			Console.WriteLine("Vehicles were loaded successfully.");
 		}
 
@@ -122,14 +123,14 @@ namespace Ex03.ConsoleUI
 			Console.Write("Enter license ID: ");
 			string licenseID = Console.ReadLine();
 
-			if(r_Garage.IsVehicleInsideTheGarge(licenseID))
+			if(r_GarageManager.IsVehicleInsideTheGarage(licenseID))
 			{
-				r_Garage.ChangeVehicleStatus(licenseID, eVehicleStatus.InRepair);
+				r_GarageManager.ChangeVehicleStatus(licenseID, eVehicleStatus.InRepair);
 				Console.WriteLine("Vehicle already exists in the garage. Its status was changed to InRepair.");
 			}
 			else
 			{
-				r_VehicleInputCollector.CollectAndAdd(licenseID);
+				r_VehicleInputCollector.AddVehicleFromUserInput(licenseID);
 			}
 		}
 
@@ -142,11 +143,13 @@ namespace Ex03.ConsoleUI
 
 			if(shouldFilterByStatus)
 			{
-				Console.Write("Enter status (InRepair, Repaired, Paid): ");
+				Console.Write(
+					"Enter status ({0}): ",
+					string.Join(", ", Enum.GetNames(typeof(eVehicleStatus))));
 				filterStatus = r_InputReader.ReadVehicleStatus();
 			}
 
-			licenseIDs = r_Garage.GetLicenseIDs(filterStatus);
+			licenseIDs = r_GarageManager.GetLicenseIDs(filterStatus);
 
 			if(licenseIDs.Count == 0)
 			{
@@ -165,10 +168,12 @@ namespace Ex03.ConsoleUI
 		{
 			Console.Write("Enter license ID: ");
 			string licenseID = Console.ReadLine();
-			Console.Write("Enter new status (InRepair, Repaired, Paid): ");
+			Console.Write(
+				"Enter new status ({0}): ",
+				string.Join(", ", Enum.GetNames(typeof(eVehicleStatus))));
 			eVehicleStatus newStatus = r_InputReader.ReadVehicleStatus();
 
-			r_Garage.ChangeVehicleStatus(licenseID, newStatus);
+			r_GarageManager.ChangeVehicleStatus(licenseID, newStatus);
 			Console.WriteLine("Vehicle status was changed successfully.");
 		}
 
@@ -177,7 +182,7 @@ namespace Ex03.ConsoleUI
 			Console.Write("Enter license ID: ");
 			string licenseID = Console.ReadLine();
 
-			r_Garage.InflateVehicleWheelsToMax(licenseID);
+			r_GarageManager.InflateVehicleWheelsToMax(licenseID);
 			Console.WriteLine("Vehicle wheels were inflated to maximum.");
 		}
 
@@ -185,12 +190,14 @@ namespace Ex03.ConsoleUI
 		{
 			Console.Write("Enter license ID: ");
 			string licenseID = Console.ReadLine();
-			Console.Write("Enter fuel type (Octan98, Octan96, Octan95, Soler): ");
+			Console.Write(
+				"Enter fuel type ({0}): ",
+				string.Join(", ", Enum.GetNames(typeof(eFuelType))));
 			eFuelType fuelType = r_InputReader.ReadFuelType();
 			Console.Write("Enter fuel amount to add: ");
 			float litersToAdd = r_InputReader.ReadFloat("Fuel amount");
 
-			r_Garage.RefuelVehicle(licenseID, fuelType, litersToAdd);
+			r_GarageManager.RefuelVehicle(licenseID, fuelType, litersToAdd);
 			Console.WriteLine("Vehicle was refueled successfully.");
 		}
 
@@ -201,7 +208,7 @@ namespace Ex03.ConsoleUI
 			Console.Write("Enter charge time in minutes: ");
 			float minutesToCharge = r_InputReader.ReadFloat("Charge time");
 
-			r_Garage.ChargeVehicle(licenseID, minutesToCharge);
+			r_GarageManager.ChargeVehicle(licenseID, minutesToCharge);
 			Console.WriteLine("Vehicle was charged successfully.");
 		}
 
@@ -210,7 +217,7 @@ namespace Ex03.ConsoleUI
 			Console.Write("Enter license ID: ");
 			string licenseID = Console.ReadLine();
 
-			Console.WriteLine(r_Garage.GetVehicleDetails(licenseID));
+			Console.WriteLine(r_GarageManager.GetVehicleDetails(licenseID));
 		}
 		
 		private void waitBeforeReturningToMenu()

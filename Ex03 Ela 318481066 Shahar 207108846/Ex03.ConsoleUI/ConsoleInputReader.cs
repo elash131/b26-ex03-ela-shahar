@@ -8,11 +8,10 @@ namespace Ex03.ConsoleUI
 		internal float ReadFloat(string i_FieldLabel)
 		{
 			string input = Console.ReadLine();
-			float value;
 
-			if(!float.TryParse(input, out value))
+			if(!float.TryParse(input, out float value))
 			{
-				throw new FormatException(string.Format("{0} must be a number.", i_FieldLabel));
+				throw new FormatException(string.Format("'{0}' is not a valid number for {1}.", input, i_FieldLabel));
 			}
 
 			return value;
@@ -21,13 +20,8 @@ namespace Ex03.ConsoleUI
 		internal eFuelType ReadFuelType()
 		{
 			string input = Console.ReadLine();
-			eFuelType fuelType;
 
-			try
-			{
-				fuelType = (eFuelType)Enum.Parse(typeof(eFuelType), input);
-			}
-			catch(ArgumentException)
+			if(!Enum.TryParse(input, out eFuelType fuelType) || !Enum.IsDefined(typeof(eFuelType), fuelType))
 			{
 				throw new FormatException(string.Format("'{0}' is not a valid fuel type.", input));
 			}
@@ -38,13 +32,8 @@ namespace Ex03.ConsoleUI
 		internal eVehicleStatus ReadVehicleStatus()
 		{
 			string input = Console.ReadLine();
-			eVehicleStatus status;
 
-			try
-			{
-				status = (eVehicleStatus)Enum.Parse(typeof(eVehicleStatus), input);
-			}
-			catch(ArgumentException)
+			if(!Enum.TryParse(input, out eVehicleStatus status) || !Enum.IsDefined(typeof(eVehicleStatus), status))
 			{
 				throw new FormatException(string.Format("'{0}' is not a valid vehicle status.", input));
 			}

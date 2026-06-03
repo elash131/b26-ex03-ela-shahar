@@ -14,6 +14,16 @@ namespace Ex03.GarageLogic
 
 		protected abstract float MaxAirPressure { get; }
 
+		public abstract List<string> SpecificPropertyLabels { get; }
+
+		public string LicenseID
+		{
+			get
+			{
+				return r_LicenseID;
+			}
+		}
+
 		internal Vehicle(string i_LicenseID, string i_ModelName, Engine i_Engine)
 		{
 			r_LicenseID = i_LicenseID;
@@ -51,7 +61,7 @@ namespace Ex03.GarageLogic
 
 			internal void InflateToMax()
 			{
-				m_CurrentAirPressure = m_MaxAirPressure;
+				Inflate(m_MaxAirPressure - m_CurrentAirPressure);
 			}
 
 			public override string ToString()

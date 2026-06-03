@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Ex03.GarageLogic
 {
 	internal abstract class Motorcycle : Vehicle
@@ -46,15 +48,10 @@ namespace Ex03.GarageLogic
 
 		private eMotorcycleLicenseType parseLicenseType(string i_LicenseType)
 		{
-			eMotorcycleLicenseType licenseType;
-
-			try
+			if(!System.Enum.TryParse(i_LicenseType, out eMotorcycleLicenseType licenseType)
+				|| !System.Enum.IsDefined(typeof(eMotorcycleLicenseType), licenseType))
 			{
-				licenseType = (eMotorcycleLicenseType)System.Enum.Parse(typeof(eMotorcycleLicenseType), i_LicenseType);
-			}
-			catch(System.ArgumentException)
-			{
-				throw new System.FormatException("Invalid motorcycle license type.");
+				throw new System.FormatException(string.Format("'{0}' is not a valid motorcycle license type.", i_LicenseType));
 			}
 
 			return licenseType;
@@ -66,7 +63,8 @@ namespace Ex03.GarageLogic
 
 			if(!int.TryParse(i_EngineVolumeInCC, out engineVolumeInCC))
 			{
-				throw new System.FormatException("Engine volume must be a whole number.");
+				throw new System.FormatException(
+					string.Format("'{0}' is not a valid engine volume.", i_EngineVolumeInCC));
 			}
 
 			return engineVolumeInCC;
@@ -85,6 +83,18 @@ namespace Ex03.GarageLogic
 			get
 			{
 				return k_MaxAirPressure;
+			}
+		}
+
+		public override List<string> SpecificPropertyLabels
+		{
+			get
+			{
+				return new List<string>
+				{
+					"motorcycle license type (A, A2, B1, AB)",
+					"engine volume in CC"
+				};
 			}
 		}
 

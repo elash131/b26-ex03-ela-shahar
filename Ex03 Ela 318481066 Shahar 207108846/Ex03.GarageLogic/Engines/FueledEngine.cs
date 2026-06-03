@@ -14,7 +14,11 @@ namespace Ex03.GarageLogic
 		{
 			if(i_FuelType != m_FuelType)
 			{
-				throw new System.ArgumentException("Wrong fuel type.");
+				throw new System.ArgumentException(
+					string.Format(
+						"Wrong fuel type. Expected {0}, but received {1}.",
+						m_FuelType,
+						i_FuelType));
 			}
 			else
 			{

@@ -48,7 +48,7 @@
     <Compile Include="Enums\eMotorcycleLicenseType.cs" />
     <Compile Include="Enums\eNumberOfDoors.cs" />
     <Compile Include="Enums\eVehicleStatus.cs" />
-    <Compile Include="Garage.cs" />
+    <Compile Include="GarageManager.cs" />
     <Compile Include="GarageVehicleRecord.cs" />
     <Compile Include="VehicleCreator.cs" />
     <Compile Include="ValueRangeException.cs" />

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Ex03.GarageLogic
 {
 	internal abstract class Car : Vehicle
@@ -46,15 +48,10 @@ namespace Ex03.GarageLogic
 
 		private eCarColor parseCarColor(string i_Color)
 		{
-			eCarColor carColor;
-
-			try
+			if(!System.Enum.TryParse(i_Color, out eCarColor carColor) 
+				|| !System.Enum.IsDefined(typeof(eCarColor), carColor))
 			{
-				carColor = (eCarColor)System.Enum.Parse(typeof(eCarColor), i_Color);
-			}
-			catch(System.ArgumentException)
-			{
-				throw new System.FormatException("Invalid car color.");
+				throw new System.FormatException(string.Format("'{0}' is not a valid car color.", i_Color));
 			}
 
 			return carColor;
@@ -62,15 +59,10 @@ namespace Ex03.GarageLogic
 
 		private eNumberOfDoors parseNumberOfDoors(string i_NumberOfDoors)
 		{
-			eNumberOfDoors numberOfDoors;
-
-			try
+			if(!System.Enum.TryParse(i_NumberOfDoors, out eNumberOfDoors numberOfDoors)
+				|| !System.Enum.IsDefined(typeof(eNumberOfDoors), numberOfDoors))
 			{
-				numberOfDoors = (eNumberOfDoors)System.Enum.Parse(typeof(eNumberOfDoors), i_NumberOfDoors);
-			}
-			catch(System.ArgumentException)
-			{
-				throw new System.FormatException("Invalid number of doors.");
+				throw new System.FormatException(string.Format("'{0}' is not a valid number of doors.", i_NumberOfDoors));
 			}
 
 			return numberOfDoors;
@@ -89,6 +81,18 @@ namespace Ex03.GarageLogic
 			get
 			{
 				return k_MaxAirPressure;
+			}
+		}
+
+		public override List<string> SpecificPropertyLabels
+		{
+			get
+			{
+				return new List<string>
+				{
+					"car color (Red, Yellow, Black, Silver)",
+					"number of doors (2, 3, 4, 5)"
+				};
 			}
 		}
 

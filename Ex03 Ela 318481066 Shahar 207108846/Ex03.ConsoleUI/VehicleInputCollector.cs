@@ -6,19 +6,27 @@ namespace Ex03.ConsoleUI
 {
 	internal class VehicleInputCollector
 	{
-		private readonly Garage r_Garage;
+		private readonly GarageManager r_GarageManager;
 
-		internal VehicleInputCollector(Garage i_Garage)
+		internal VehicleInputCollector(GarageManager i_GarageManager)
 		{
-			r_Garage = i_Garage;
+			r_GarageManager = i_GarageManager;
 		}
 
-		internal void CollectAndAdd(string i_LicenseID)
+		internal void AddVehicleFromUserInput(string i_LicenseID)
 		{
 			string vehicleType = readVehicleType();
 
 			Console.Write("Enter model name: ");
 			string modelName = Console.ReadLine();
+
+			Vehicle vehicle = VehicleCreator.CreateVehicle(vehicleType, i_LicenseID, modelName);
+
+			if(vehicle == null)
+			{
+				throw new FormatException(string.Format("'{0}' is not a valid vehicle type.", vehicleType));
+			}
+
 			Console.Write("Enter remaining energy percentage: ");
 			string energyPercentageInput = Console.ReadLine();
 			Console.Write("Enter wheel manufacturer name: ");
@@ -30,31 +38,27 @@ namespace Ex03.ConsoleUI
 			Console.Write("Enter owner phone: ");
 			string ownerPhone = Console.ReadLine();
 
-			string[] specificVehicleProperties = getSpecificVehicleProperties(vehicleType);
+			string[] specificProperties = collectSpecificProperties(vehicle);
 
-			r_Garage.AddVehicleToGarage(
-				vehicleType,
-				i_LicenseID,
-				modelName,
+			r_GarageManager.AddCreatedVehicle(
+				vehicle,
 				energyPercentageInput,
 				wheelManufacturerName,
 				currentAirPressureInput,
 				ownerName,
 				ownerPhone,
-				specificVehicleProperties);
+				specificProperties);
 
 			Console.WriteLine("Vehicle was added to the garage successfully.");
 		}
 
 		private string readVehicleType()
 		{
-			List<string> supportedVehicleTypes = r_Garage.SupportedVehicleTypes;
-			int selectedVehicleTypeIndex;
-			string vehicleType;
+			List<string> supportedVehicleTypes = r_GarageManager.SupportedVehicleTypes;
+			string vehicleTypeInput;
 			int optionNumber = 1;
 
 			Console.WriteLine("Supported vehicle types:");
-
 			foreach(string supportedVehicleType in supportedVehicleTypes)
 			{
 				Console.WriteLine("{0}. {1}", optionNumber, supportedVehicleType);
@@ -62,71 +66,32 @@ namespace Ex03.ConsoleUI
 			}
 
 			Console.Write("Enter vehicle type number: ");
+			vehicleTypeInput = Console.ReadLine();
 
-			if(!int.TryParse(Console.ReadLine(), out selectedVehicleTypeIndex)
+			if(!int.TryParse(vehicleTypeInput, out int selectedVehicleTypeIndex)
 				|| selectedVehicleTypeIndex < 1
 				|| selectedVehicleTypeIndex > supportedVehicleTypes.Count)
 			{
-				throw new FormatException("Invalid vehicle type.");
+				throw new FormatException(string.Format("'{0}' is not a valid vehicle type.", vehicleTypeInput));
 			}
 
-			vehicleType = supportedVehicleTypes[selectedVehicleTypeIndex - 1];
-
-			return vehicleType;
+			return supportedVehicleTypes[selectedVehicleTypeIndex - 1];
 		}
 
-		private string[] getSpecificVehicleProperties(string i_VehicleType)
+		private string[] collectSpecificProperties(Vehicle i_Vehicle)
 		{
-			string[] specificVehicleProperties;
+			List<string> labels = i_Vehicle.SpecificPropertyLabels;
+			string[] values = new string[labels.Count];
+            int index = 0;
 
-			switch(i_VehicleType)
-			{
-				case "FuelCar":
-				case "ElectricCar":
-					specificVehicleProperties = getCarSpecificProperties();
-					break;
-				case "FuelMotorcycle":
-				case "ElectricMotorcycle":
-					specificVehicleProperties = getMotorcycleSpecificProperties();
-					break;
-				case "FuelTruck":
-					specificVehicleProperties = getTruckSpecificProperties();
-					break;
-				default:
-					throw new FormatException("Invalid vehicle type.");
-			}
+            foreach (string label in labels)
+            {
+                Console.Write("Enter {0}: ", label);
+                values[index] = Console.ReadLine();
+                index++;
+            }
 
-			return specificVehicleProperties;
-		}
-
-		private string[] getCarSpecificProperties()
-		{
-			Console.Write("Enter car color (Red, Yellow, Black, Silver): ");
-			string color = Console.ReadLine();
-			Console.Write("Enter number of doors (2, 3, 4, 5): ");
-			string numberOfDoors = Console.ReadLine();
-
-			return new string[] { color, numberOfDoors };
-		}
-
-		private string[] getMotorcycleSpecificProperties()
-		{
-			Console.Write("Enter motorcycle license type (A, A2, B1, AB): ");
-			string licenseType = Console.ReadLine();
-			Console.Write("Enter engine volume in CC: ");
-			string engineVolumeInCC = Console.ReadLine();
-
-			return new string[] { licenseType, engineVolumeInCC };
-		}
-
-		private string[] getTruckSpecificProperties()
-		{
-			Console.Write("Is the truck carrying refrigerated cargo (true/false): ");
-			string isCarryingRefrigeratedCargo = Console.ReadLine();
-			Console.Write("Enter cargo volume: ");
-			string cargoVolume = Console.ReadLine();
-
-			return new string[] { isCarryingRefrigeratedCargo, cargoVolume };
+			return values;
 		}
 	}
 }

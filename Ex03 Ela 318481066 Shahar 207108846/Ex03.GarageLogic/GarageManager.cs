@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
-	public class Garage
+	public class GarageManager
 	{
 		private readonly Dictionary<string, GarageVehicleRecord> r_VehicleRecords;
 		private const string k_VehiclesDBFileName = "VehiclesDB.txt";
@@ -16,7 +16,7 @@ namespace Ex03.GarageLogic
 		private const int k_OwnerPhoneIndex = 7;
 		private const int k_FirstSpecificInfoIndex = 8;
 
-		public Garage()
+		public GarageManager()
 		{
 			r_VehicleRecords = new Dictionary<string, GarageVehicleRecord>();
 		}
@@ -49,7 +49,7 @@ namespace Ex03.GarageLogic
 			}
 		}
 
-		public bool IsVehicleInsideTheGarge(string i_LicenseID)
+		public bool IsVehicleInsideTheGarage(string i_LicenseID)
 		{
 			return r_VehicleRecords.ContainsKey(i_LicenseID);
 		}
@@ -61,6 +61,30 @@ namespace Ex03.GarageLogic
 				List<string> supportedVehicleTypes = VehicleCreator.SupportedTypes;
 
 				return supportedVehicleTypes;
+			}
+		}
+
+		public List<string> SupportedCarColors
+		{
+			get
+			{
+				return new List<string>(System.Enum.GetNames(typeof(eCarColor)));
+			}
+		}
+
+		public List<string> SupportedNumbersOfDoors
+		{
+			get
+			{
+				return new List<string>(System.Enum.GetNames(typeof(eNumberOfDoors)));
+			}
+		}
+
+		public List<string> SupportedMotorcycleLicenseTypes
+		{
+			get
+			{
+				return new List<string>(System.Enum.GetNames(typeof(eMotorcycleLicenseType)));
 			}
 		}
 
@@ -117,10 +141,8 @@ namespace Ex03.GarageLogic
 			return r_VehicleRecords[i_LicenseID].ToString();
 		}
 
-		public bool AddVehicleToGarage(
-			string i_VehicleType,
-			string i_LicenseID,
-			string i_ModelName,
+		public void AddCreatedVehicle(
+			Vehicle i_Vehicle,
 			string i_EnergyPercentage,
 			string i_WheelManufacturerName,
 			string i_CurrentAirPressure,
@@ -128,76 +150,49 @@ namespace Ex03.GarageLogic
 			string i_OwnerPhone,
 			string[] i_SpecificVehicleProperties)
 		{
-			bool isNewVehicle = !r_VehicleRecords.ContainsKey(i_LicenseID);
+			string licenseID = i_Vehicle.LicenseID;
 
-			if(isNewVehicle)
+			if(r_VehicleRecords.ContainsKey(licenseID))
 			{
-				addNewVehicleRecord(
-					i_VehicleType,
-					i_LicenseID,
-					i_ModelName,
-					i_EnergyPercentage,
-					i_WheelManufacturerName,
-					i_CurrentAirPressure,
-					i_OwnerName,
-					i_OwnerPhone,
-					i_SpecificVehicleProperties);
+				r_VehicleRecords[licenseID].Status = eVehicleStatus.InRepair;
 			}
 			else
 			{
-				r_VehicleRecords[i_LicenseID].Status = eVehicleStatus.InRepair;
+				i_Vehicle.InitializeEnergy(parseFloat(i_EnergyPercentage, "Energy percentage"));
+				i_Vehicle.InitializeWheels(
+					i_WheelManufacturerName,
+					parseFloat(i_CurrentAirPressure, "Wheel air pressure"));
+				i_Vehicle.InitializeSpecificInfo(i_SpecificVehicleProperties);
+				r_VehicleRecords.Add(
+					licenseID,
+					new GarageVehicleRecord(i_Vehicle, i_OwnerName, i_OwnerPhone));
 			}
-
-			return isNewVehicle;
 		}
 
 		private void loadVehicleFromDBLine(string i_VehicleLine)
 		{
 			string[] vehicleData = i_VehicleLine.Split(',');
 			string[] specificVehicleProperties = getSpecificVehicleProperties(vehicleData);
-			
-			AddVehicleToGarage(
+
+			Vehicle vehicle = VehicleCreator.CreateVehicle(
 				vehicleData[k_VehicleTypeIndex],
 				vehicleData[k_LicenseIDIndex],
-				vehicleData[k_ModelNameIndex],
+				vehicleData[k_ModelNameIndex]);
+
+			if(vehicle == null)
+			{
+				throw new System.FormatException(
+					string.Format("'{0}' is not a valid vehicle type.", vehicleData[k_VehicleTypeIndex]));
+			}
+
+			AddCreatedVehicle(
+				vehicle,
 				vehicleData[k_EnergyPercentageIndex],
 				vehicleData[k_WheelManufacturerIndex],
 				vehicleData[k_CurrentAirPressureIndex],
 				vehicleData[k_OwnerNameIndex],
 				vehicleData[k_OwnerPhoneIndex],
 				specificVehicleProperties);
-		}
-
-		private void addNewVehicleRecord(
-			string i_VehicleType,
-			string i_LicenseID,
-			string i_ModelName,
-			string i_EnergyPercentage,
-			string i_WheelManufacturerName,
-			string i_CurrentAirPressure,
-			string i_OwnerName,
-			string i_OwnerPhone,
-			string[] i_SpecificVehicleProperties)
-		{
-			Vehicle vehicle = VehicleCreator.CreateVehicle(
-				i_VehicleType,
-				i_LicenseID,
-				i_ModelName);
-
-			if(vehicle == null)
-			{
-				throw new System.FormatException("Invalid vehicle type.");
-			}
-
-			vehicle.InitializeEnergy(parseFloat(i_EnergyPercentage, "Energy percentage"));
-			vehicle.InitializeWheels(i_WheelManufacturerName, parseFloat(i_CurrentAirPressure, "Wheel air pressure"));
-			vehicle.InitializeSpecificInfo(i_SpecificVehicleProperties);
-			r_VehicleRecords.Add(
-				i_LicenseID,
-				new GarageVehicleRecord(
-					vehicle,
-					i_OwnerName,
-					i_OwnerPhone));
 		}
 
 		private void validateVehicleExists(string i_LicenseID)
@@ -214,7 +209,8 @@ namespace Ex03.GarageLogic
 
 			if(!float.TryParse(i_RawValue, out value))
 			{
-				throw new System.FormatException(string.Format("{0} must be a number.", i_FieldLabel));
+				throw new System.FormatException(
+					string.Format("'{0}' is not a valid number for {1}.", i_RawValue, i_FieldLabel));
 			}
 
 			return value;
