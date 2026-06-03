@@ -148,6 +148,13 @@ namespace Ex03.GarageLogic
 		private void loadVehicleFromDBLine(string i_VehicleLine)
 		{
 			string[] vehicleData = i_VehicleLine.Split(',');
+
+			if(vehicleData.Length < k_FirstSpecificInfoIndex)
+			{
+				throw new System.FormatException(
+					string.Format("Vehicle data line must contain at least {0} fields.", k_FirstSpecificInfoIndex));
+			}
+
 			string[] specificVehicleProperties = getSpecificVehicleProperties(vehicleData);
 
 			Vehicle vehicle = VehicleCreator.CreateVehicle(
