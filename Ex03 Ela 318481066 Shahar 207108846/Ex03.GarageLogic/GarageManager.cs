@@ -64,30 +64,6 @@ namespace Ex03.GarageLogic
 			}
 		}
 
-		public List<string> SupportedCarColors
-		{
-			get
-			{
-				return new List<string>(System.Enum.GetNames(typeof(eCarColor)));
-			}
-		}
-
-		public List<string> SupportedNumbersOfDoors
-		{
-			get
-			{
-				return new List<string>(System.Enum.GetNames(typeof(eNumberOfDoors)));
-			}
-		}
-
-		public List<string> SupportedMotorcycleLicenseTypes
-		{
-			get
-			{
-				return new List<string>(System.Enum.GetNames(typeof(eMotorcycleLicenseType)));
-			}
-		}
-
 		public List<string> GetLicenseIDs(eVehicleStatus? i_FilterStatus)
 		{
 			List<string> licenseIDs = new List<string>();
@@ -205,9 +181,7 @@ namespace Ex03.GarageLogic
 
 		private float parseFloat(string i_RawValue, string i_FieldLabel)
 		{
-			float value;
-
-			if(!float.TryParse(i_RawValue, out value))
+			if(!float.TryParse(i_RawValue, out float value))
 			{
 				throw new System.FormatException(
 					string.Format("'{0}' is not a valid number for {1}.", i_RawValue, i_FieldLabel));

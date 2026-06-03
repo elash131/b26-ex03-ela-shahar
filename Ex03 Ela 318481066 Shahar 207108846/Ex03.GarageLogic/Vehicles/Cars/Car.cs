@@ -90,7 +90,9 @@ namespace Ex03.GarageLogic
 			{
 				return new List<string>
 				{
-					"car color (Red, Yellow, Black, Silver)",
+					string.Format(
+						"car color ({0})",
+						string.Join(", ", System.Enum.GetNames(typeof(eCarColor)))),
 					"number of doors (2, 3, 4, 5)"
 				};
 			}

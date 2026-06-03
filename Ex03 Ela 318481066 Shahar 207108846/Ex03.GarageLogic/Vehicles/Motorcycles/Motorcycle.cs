@@ -92,7 +92,9 @@ namespace Ex03.GarageLogic
 			{
 				return new List<string>
 				{
-					"motorcycle license type (A, A2, B1, AB)",
+					string.Format(
+						"motorcycle license type ({0})",
+						string.Join(", ", System.Enum.GetNames(typeof(eMotorcycleLicenseType)))),
 					"engine volume in CC"
 				};
 			}
